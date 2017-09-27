@@ -1,42 +1,30 @@
 /*************************************************************************
-                        model  -  description
+                        tree  -  description
  -------------------
  Begin                : 26/09/2017
  Copyright            : (C) 2017 by Francois
  *************************************************************************/
 
-//---------- Interface of <model>'s class (file model.h) -------------
-
-#if !defined ( MODEL_HPP )
-#define MODEL_HPP
+//---------- Interface of <tree>'s class (file tree.h) -------------
+#if !defined ( TREE_HPP )
+#define TREE_HPP
 
 //-------------------------------------------------------- Used interfaces
-#include <iostream>
-#include "gamestate.hpp"
+#include "node.hpp"
+
 //------------------------------------------------------------- Constantes
-const int PD_0_ALIGNED    = 0;
-const int PD_1_ALIGNED    = 1;
-const int PD_2_ALIGNED    = 10;
-const int PD_3_ALIGNED    = 100;
-const int PD_VICTORY      = INT8_MAX;
-const int SZ_BOARD        = 4;
-const int DEEPEST_POSSIBLE= 0;
 
 //------------------------------------------------------------------------
-// Class's job <model>
-//      - Hold the model (basically a minimax with a-b pruning algorithms)
-//      in order to solve A2 assignement in AI course at KTH.
-//      - I would like you to notice that this class is "model" and not
-//      "Model", in my opinion the second option is usually better for
-//      readability reason but I prefer to fit in the existing code.
+// Class's job <tree>
+//
+//
 //------------------------------------------------------------------------
-
-class model {
+template<typename T>
+class tree {
 //----------------------------------------------------------------- PUBLIC
-
 public:
 //------------------------------------------------------- Publics methods
-    TICTACTOE::GameState obtainBestMove(TICTACTOE::GameState currentState);
+    void buildMinMax(void (*function)(int,int));
     // Parameters :
     //
     // Manual :
@@ -44,16 +32,15 @@ public:
     // Contract :
     //
 
-
 //---------------------------------------------- Constructors - destructor
-    model(TICTACTOE::Cell currentCell);
+    tree(const int aMaxDepth = -1);
     // Manual :
     //
     // Contract :
     //
 
 
-    virtual ~model();
+    virtual ~tree();
     // Manual :
     //
     // Contract :
@@ -65,38 +52,15 @@ protected:
 
 private:
 //-------------------------------------------------------- Private methods
-    const void log(const std::string log);
-    // Manual :
-    //
-    // Contract :
-    //
-
-    int scoringState(const TICTACTOE::GameState aState,
-                     TICTACTOE::Cell targetCell);
-    // Manual :
-    //
-    // Contract :
-    //
-
-    int computeScore(const int alignedCells);
-    // Manual :
-    //
-    // Contract :
-    //
-
-    int computeContiniousList(std::vector<TICTACTOE::Cell> cell,
-                              TICTACTOE::Cell targetedCell);
-    // Manual :
-    //
-    // Contract :
-    //
 
 protected:
 //--------------------------------------------------- Protected attributes
 
 private:
 //----------------------------------------------------- Private attributes
-    TICTACTOE::Cell ownCell;
+    node<T, short int>* root;
+    int maxDepth;
+
 //-------------------------------------------------------- Friends classes
 
 //-------------------------------------------------------- Private classes
@@ -106,6 +70,6 @@ private:
 
 };
 
-//---------------------------------------- Dependant's types of <model>
+//---------------------------------------- Dependant's types of <tree>
 
-#endif // MODEL_HPP
+#endif // TREE_HPP
