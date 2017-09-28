@@ -47,7 +47,7 @@ int model::scoringState(const TICTACTOE::GameState aState, TICTACTOE::Cell targe
         {
             continuousList[col] = (TICTACTOE::Cell) aState.at(row, col);
         }
-        theScore += computeScore(computeContiniousList(continuousList, targetedCell));
+        theScore += computeScore(continuousList, targetedCell);
     }
 
     // Compute-Line
@@ -57,7 +57,7 @@ int model::scoringState(const TICTACTOE::GameState aState, TICTACTOE::Cell targe
         {
             continuousList[row] = (TICTACTOE::Cell) aState.at(row, col);
         }
-        theScore += computeScore(computeContiniousList(continuousList, targetedCell));
+        theScore += computeScore(continuousList, targetedCell);
     }
 
     std::vector<TICTACTOE::Cell> continuousList2(SZ_BOARD, TICTACTOE::CELL_EMPTY);
@@ -68,8 +68,8 @@ int model::scoringState(const TICTACTOE::GameState aState, TICTACTOE::Cell targe
         continuousList2[cursor] = (TICTACTOE::Cell) aState.at(SZ_BOARD - cursor, cursor);
 
     }
-    theScore += computeScore(computeContiniousList(continuousList, targetedCell)) +
-                computeScore(computeContiniousList(continuousList2, targetedCell));
+    theScore += computeScore(continuousList, targetedCell) +
+                computeScore(continuousList2, targetedCell);
 
 
     return theScore;
@@ -77,51 +77,27 @@ int model::scoringState(const TICTACTOE::GameState aState, TICTACTOE::Cell targe
 
 
 
-int model::computeScore(const int alignedCells)
-{
-    int score;
 
-    switch (alignedCells)
-    {
-        case 0 :
-            score = PD_0_ALIGNED;
-            break;
-        case 1 :
-            score = PD_1_ALIGNED;
-            break;
-        case 2 :
-            score = PD_2_ALIGNED;
-            break;
-        case 3 :
-            score = PD_3_ALIGNED;
-            break;
-        case 4 :
-            score = PD_VICTORY;
-            break;
-        default:
-            score = PD_0_ALIGNED;
-            break;
-    }
 
-    return score;
-} //----- End of method
-
-int model::computeContiniousList(std::vector<TICTACTOE::Cell> cell,
+int model::computeScore(std::vector<TICTACTOE::Cell> cell,
                                  TICTACTOE::Cell targetedCell)
 {
-    //TODO : heuristic
-    int theNumberOfContinuous = 0;
-    int aNumberOfContinuous = 0;
+
+    int NumberOfGoodCells = 0;
+    int NumberOfOpponentCells = 0;
+
+    TICTACTOE::Cell opponentCell = CELL_X;
+
+    if ((TICTACTOE::Cell) targetedCell ==  CELL_X) opponentCell == CELL_O;
 
     for (int cursor = 0; cursor < cell.size(); cursor++)
     {
-        if ((TICTACTOE::Cell) cell[cursor] != targetedCell) aNumberOfContinuous = 0;
-        else                                                aNumberOfContinuous++;
+        if ((TICTACTOE::Cell) cell[cursor] == targetedCell) NumberOfGoodCells++;
 
-        if (aNumberOfContinuous > theNumberOfContinuous) theNumberOfContinuous = aNumberOfContinuous;
+        if ((TICTACTOE::Cell) cell[cursor] == opponentCell) NumberOfOpponentCells++;
     }
 
-    return theNumberOfContinuous;
+    return Heuristic_Array[NumberOfGoodCells][NumberOfOpponentCells];
 } //----- End of method
 
 

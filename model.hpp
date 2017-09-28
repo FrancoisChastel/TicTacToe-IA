@@ -14,10 +14,12 @@
 #include <iostream>
 #include "gamestate.hpp"
 //------------------------------------------------------------- Constantes
-const int PD_0_ALIGNED    = 0;
-const int PD_1_ALIGNED    = 1;
-const int PD_2_ALIGNED    = 10;
-const int PD_3_ALIGNED    = 100;
+const int Heuristic_Array[4][4] = {
+  {     0,   -10,  -100, -10000 },
+  {    10,     0,     0,     0 },
+  {   100,     0,     0,     0 },
+  {  10000,     0,     0,     0 }
+};
 const int PD_VICTORY      = INT8_MAX;
 const int SZ_BOARD        = 4;
 const int DEEPEST_POSSIBLE= 0;
