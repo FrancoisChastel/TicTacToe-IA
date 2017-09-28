@@ -86,9 +86,9 @@ int model::computeScore(std::vector<TICTACTOE::Cell> cell,
     int NumberOfGoodCells = 0;
     int NumberOfOpponentCells = 0;
 
-    TICTACTOE::Cell opponentCell = CELL_X;
+    TICTACTOE::Cell opponentCell = TICTACTOE::CELL_X;
 
-    if ((TICTACTOE::Cell) targetedCell ==  CELL_X) opponentCell == CELL_O;
+    if ((TICTACTOE::Cell) targetedCell ==  TICTACTOE::CELL_X) opponentCell == TICTACTOE::CELL_O;
 
     for (int cursor = 0; cursor < cell.size(); cursor++)
     {
