@@ -1,81 +1,57 @@
 /*************************************************************************
-                        node  -  description
+                        IScorable  -  description
  -------------------
- Begin                : 27/09/2017
+ Begin                : 28/09/2017
  Copyright            : (C) 2017 by Francois
  *************************************************************************/
 
-//---------- Interface of <node>'s class (file node.h) -------------
-#include <vector>
-
-#if !defined ( NODE_HPP )
-#define NODE_HPP
+//---------- Interface of <IScorable>'s class (file IScorable.h) -------------
+#if !defined ( ISCORABLE_H )
+#define ISCORABLE_H
 
 //-------------------------------------------------------- Used interfaces
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------------
-// Class's job <node>
+// Class's job <IScorable>
 //
 //
 //------------------------------------------------------------------------
 
 // Specification template :
-//      - T         : object that will be hold in the node of the tree
-//      - TScore    : object that will be hold in the node of the tree
-template<typename T, typename TScore>
-class node {
+//      - T         : object on the node of the Binary Tree. For that
+//                    purpose you need to overload your operators ;
+//      - TCompare  : object part of T object, you can add, search and
+//                    delete based on this TCompare. For that purpose you
+//                    need to overload your operator.
+template<typename T, typename TCompare>
+class IScorable {
 //----------------------------------------------------------------- PUBLIC
+
 public:
 //------------------------------------------------------- Publics methods
-    node<T, TScore>* getNode(int index)
+    // T* addElement(TCompare element);
     // Parameters :
     //
     // Manual :
     //
     // Contract :
     //
-    {
-        return this->nodes[index];
-    };
-
-    TScore getScore()
-    // Parameters :
-    //
-    // Manual :
-    //
-    // Contract :
-    //
-    {
-        return score;
-    };
 
 //---------------------------------------------- Constructors - destructor
-    node(T aValue = nullptr, TScore aScore = nullptr)
+    IScorable();
     // Manual :
     //
     // Contract :
     //
-    {
-        this->value = aValue;
-        this->score = aScore;
-    }
 
 
-    virtual ~node()
+    virtual ~IScorable();
     // Manual :
     //
     // Contract :
     //
-    {
-        for (node<T, TScore> * element : nodes)
-        {
-            delete element;
-        }
-        delete value;
-        delete score;
-    }
 
 //---------------------------------------------------------------- PRIVATE
 protected:
@@ -89,9 +65,6 @@ protected:
 
 private:
 //----------------------------------------------------- Private attributes
-    std::vector<node<T, TScore>*>   nodes;
-    TScore                          score;
-    T                               value;
 
 //-------------------------------------------------------- Friends classes
 
@@ -102,7 +75,6 @@ private:
 
 };
 
-//---------------------------------------- Dependant's types of <tree>
+//---------------------------------------- Dependant's types of <IScorable>
 
-#endif // NODE_HPP
-
+#endif // ISCORABLE_H

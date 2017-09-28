@@ -13,6 +13,8 @@
 //-------------------------------------------------------- Used interfaces
 #include <iostream>
 #include "gamestate.hpp"
+#include "tree.hpp"
+
 //------------------------------------------------------------- Constantes
 const int Heuristic_Array[4][4] = {
   {     0,   -10,  -100, -10000 },
@@ -48,12 +50,11 @@ public:
 
 
 //---------------------------------------------- Constructors - destructor
-    model(TICTACTOE::Cell currentCell);
+    model(TICTACTOE::Cell targetedCell);
     // Manual :
     //
     // Contract :
     //
-
 
     virtual ~model();
     // Manual :
@@ -74,20 +75,14 @@ private:
     //
 
     int scoringState(const TICTACTOE::GameState aState,
-                     TICTACTOE::Cell targetCell);
+                     const TICTACTOE::Cell targetCell);
     // Manual :
     //
     // Contract :
     //
 
-    int computeScore(const int alignedCells);
-    // Manual :
-    //
-    // Contract :
-    //
-
-    int computeContiniousList(std::vector<TICTACTOE::Cell> cell,
-                              TICTACTOE::Cell targetedCell);
+    int computeScore(const std::vector<TICTACTOE::Cell> cell,
+                     const TICTACTOE::Cell targetedCell);
     // Manual :
     //
     // Contract :
@@ -99,6 +94,8 @@ protected:
 private:
 //----------------------------------------------------- Private attributes
     TICTACTOE::Cell ownCell;
+    tree<int> instance_tree;
+
 //-------------------------------------------------------- Friends classes
 
 //-------------------------------------------------------- Private classes

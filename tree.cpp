@@ -13,6 +13,7 @@
 
 //---------------------------------------------------- Personnal's include
 #include "tree.hpp"
+#include "gamestate.hpp"
 
 //-------------------------------------------------------------- Constants
 
@@ -25,11 +26,23 @@
 
 
 //--------------------------------------------------------- Public methods
-// type tree::MÈthode ( liste de paramËtres )
+template<typename T> void tree<T>::buildMinMax(void (*function)(int, int),
+                                               int depth=0,
+                                               TICTACTOE::GameState possibleState)
 // Algorithm :
 //
-//{
-//} //----- End of method
+{
+    depth++;
+
+    if (depth > this->maxDepth)
+    {
+
+    }
+    else
+    {
+
+    }
+} //----- End of method
 
 //---------------------------------------------- Constructors - destructor
 template<typename T> tree<T>::tree(const int aMaxDepth)
@@ -40,7 +53,7 @@ template<typename T> tree<T>::tree(const int aMaxDepth)
     cout << "Call of constructor <tree>" << endl;
 #endif
     this->maxDepth = aMaxDepth;
-    this->root = new node<T>();
+    this->root = new node<T, int>();
 } //----- End of tree
 
 

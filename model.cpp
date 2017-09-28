@@ -28,12 +28,13 @@
 TICTACTOE::GameState model::obtainBestMove(TICTACTOE::GameState currentState)
 // Algorithm :
 {
+
     return currentState;
 } //----- End of method
 
 
 
-int model::scoringState(const TICTACTOE::GameState aState, TICTACTOE::Cell targetedCell)
+int model::scoringState(const TICTACTOE::GameState aState, const TICTACTOE::Cell targetedCell)
 // Algorithm : x/A
 {
     int theScore = 0;
@@ -79,8 +80,8 @@ int model::scoringState(const TICTACTOE::GameState aState, TICTACTOE::Cell targe
 
 
 
-int model::computeScore(std::vector<TICTACTOE::Cell> cell,
-                                 TICTACTOE::Cell targetedCell)
+int model::computeScore(const std::vector<TICTACTOE::Cell> cell,
+                        const TICTACTOE::Cell targetedCell)
 {
 
     int NumberOfGoodCells = 0;
