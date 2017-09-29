@@ -26,22 +26,75 @@
 
 
 //--------------------------------------------------------- Public methods
-template<typename T> void tree<T>::buildMinMax(void (*function)(int, int),
-                                               int depth=0,
-                                               TICTACTOE::GameState possibleState)
+template<typename T> int tree<T>::alphaBeta( TICTACTOE::GameState state,
+                                             int depth=0,
+                                             int alpha,
+                                             int beta,
+                                             const TICTACTOE::Cell playerCell)
+// state : the current state we are analyzing
+// α : the current best value achievable by A
+// β : the current best value achievable by B
+// targetedCell : the current player
+// returns the minimax value of the s t a t e
 // Algorithm :
 //
 {
-    depth++;
-
-    if (depth > this->maxDepth)
+    bool endGame = false;
+    if ( playerCell == CELL_X )
     {
-
+      endGame = state.isXWin();
     }
     else
     {
-
+      endGame = state.isOWin();
     }
+
+    if ( depth = 0 || endGame || state.isEOG() )
+    {
+      //  terminal state
+      v = model::scoringState(state, targetedState);
+    }
+
+    else if ( playerCell == ACell )
+    {
+      // Player A, maximise the score
+      v = -1000000; // -infinity
+
+      TICTACTOE::GameState child;
+      std::vector<TICTACTOE::GameState>  childStates;
+
+      state.findPossibleMoves( childStates );
+
+      while ( !childStates.empty() || beta < alpha)
+      {
+        child = childStates.back();
+        childStates.pop_back();
+
+        v = max( v, alphaBeta( child, depth - 1, alpha, beta, playerCell ) );
+        alpha = max( v, alpha );
+      }
+    }
+
+    else
+    {
+      // Player B, minimize the score
+      v = 1000000; // + infinity
+
+      TICTACTOE::GameState child;
+      std::vector<TICTACTOE::GameState>  childStates;
+
+      state.findPossibleMoves( childStates );
+
+      while ( !childStates.empty() || beta < alpha)
+      {
+        child = childStates.back();
+        childStates.pop_back();
+
+        v = min( v, alphaBeta( child, depth - 1, alpha, beta, playerCell ) );
+        alpha = min( v, alpha );
+      }
+    }
+
 } //----- End of method
 
 //---------------------------------------------- Constructors - destructor
