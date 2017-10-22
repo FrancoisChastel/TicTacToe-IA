@@ -1,5 +1,5 @@
 #include "player.hpp"
-#include "model.hpp"
+#include "Model.hpp"
 #include <cstdlib>
 
 namespace TICTACTOE

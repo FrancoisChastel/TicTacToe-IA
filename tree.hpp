@@ -10,7 +10,8 @@
 #define TREE_HPP
 
 //-------------------------------------------------------- Used interfaces
-#include "node.hpp"
+#include "Node.hpp"
+#include "IModel.hpp"
 
 //------------------------------------------------------------- Constantes
 
@@ -19,12 +20,11 @@
 //
 //
 //------------------------------------------------------------------------
-template<typename T>
 class tree {
 //----------------------------------------------------------------- PUBLIC
 public:
 //------------------------------------------------------- Publics methods
-    void buildMinMax(void (*function)(int,int));
+    void buildMinMax(IModel model);
     // Parameters :
     //
     // Manual :
@@ -58,7 +58,7 @@ protected:
 
 private:
 //----------------------------------------------------- Private attributes
-    node<T, short int>* root;
+    Node<std::string, short int>* root;
     int maxDepth;
 
 //-------------------------------------------------------- Friends classes

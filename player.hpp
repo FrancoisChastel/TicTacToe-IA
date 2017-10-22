@@ -5,7 +5,7 @@
 #include "deadline.hpp"
 #include "move.hpp"
 #include "gamestate.hpp"
-#include "model.hpp"
+#include "Model.hpp"
 #include <vector>
 
 namespace TICTACTOE

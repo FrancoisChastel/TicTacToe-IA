@@ -26,9 +26,9 @@
 
 
 //--------------------------------------------------------- Public methods
-template<typename T> void tree<T>::buildMinMax(void (*function)(int, int),
-                                               int depth=0,
-                                               TICTACTOE::GameState possibleState)
+void tree::buildMinMax(IModel model,
+                       int depth=0,
+                       TICTACTOE::GameState possibleState)
 // Algorithm :
 //
 {
@@ -36,7 +36,7 @@ template<typename T> void tree<T>::buildMinMax(void (*function)(int, int),
 
     if (depth > this->maxDepth)
     {
-
+        break;
     }
     else
     {
