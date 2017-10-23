@@ -5,14 +5,14 @@
  copyright            : (C) 2017 par Francois
  *************************************************************************/
 
-//---------- Realization of <model>'s class (file model.cpp) --
+//---------- Realization of <Model>'s class (file Model.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
 //------------------------------------------------------- System's include
 
 //---------------------------------------------------- Personnal's include
-#include "model.hpp"
+#include "Model.hpp"
 
 //-------------------------------------------------------------- Constants
 
@@ -25,8 +25,8 @@
 
 
 //--------------------------------------------------------- Public methods
-TICTACTOE::GameState model::obtainBestMove(TICTACTOE::GameState currentState)
-// Algorithm :
+TICTACTOE::GameState Model::obtainBestMove(TICTACTOE::GameState currentState)
+// Algorithm : N/A
 {
 
     return currentState;
@@ -34,8 +34,8 @@ TICTACTOE::GameState model::obtainBestMove(TICTACTOE::GameState currentState)
 
 
 
-int model::scoringState(const TICTACTOE::GameState aState, const TICTACTOE::Cell targetedCell)
-// Algorithm : x/A
+int Model::scoringState(const TICTACTOE::GameState aState, const TICTACTOE::Cell targetedCell)
+// Algorithm : N/A
 {
     int theScore = 0;
 
@@ -44,7 +44,7 @@ int model::scoringState(const TICTACTOE::GameState aState, const TICTACTOE::Cell
     // Compute-Row
     for (int row=0; row < SZ_BOARD; row++)
     {
-        for (int col=0; row < SZ_BOARD; col++)
+        for (int col=0; col < SZ_BOARD; col++)
         {
             continuousList[col] = (TICTACTOE::Cell) aState.at(row, col);
         }
@@ -66,7 +66,7 @@ int model::scoringState(const TICTACTOE::GameState aState, const TICTACTOE::Cell
     for (int cursor=0; cursor < SZ_BOARD; cursor++)
     {
         continuousList[cursor] = (TICTACTOE::Cell) aState.at(cursor, cursor);
-        continuousList2[cursor] = (TICTACTOE::Cell) aState.at(SZ_BOARD - cursor, cursor);
+        continuousList2[cursor] = (TICTACTOE::Cell) aState.at((SZ_BOARD - 1) - cursor, cursor);
 
     }
     theScore += computeScore(continuousList, targetedCell) +
@@ -77,10 +77,7 @@ int model::scoringState(const TICTACTOE::GameState aState, const TICTACTOE::Cell
 } //----- End of method
 
 
-
-
-
-int model::computeScore(const std::vector<TICTACTOE::Cell> cell,
+int Model::computeScore(const std::vector<TICTACTOE::Cell> cell,
                         const TICTACTOE::Cell targetedCell)
 {
 
@@ -89,7 +86,7 @@ int model::computeScore(const std::vector<TICTACTOE::Cell> cell,
 
     TICTACTOE::Cell opponentCell = TICTACTOE::CELL_X;
 
-    if ((TICTACTOE::Cell) targetedCell ==  TICTACTOE::CELL_X) opponentCell == TICTACTOE::CELL_O;
+    if ((TICTACTOE::Cell) targetedCell ==  TICTACTOE::CELL_X) opponentCell = TICTACTOE::CELL_O;
 
     for (int cursor = 0; cursor < cell.size(); cursor++)
     {
@@ -103,36 +100,80 @@ int model::computeScore(const std::vector<TICTACTOE::Cell> cell,
 
 
 //---------------------------------------------- Constructors - destructor
-model::model(TICTACTOE::Cell currentCell)
+Model::Model(TICTACTOE::Cell currentCell)
 // Algorithm :
 //
 {
 #ifdef MAP
-    cout << "Call of constructor <model>" << endl;
+    cout << "Call of constructor <Model>" << endl;
 #endif
-    this->ownCell = currentCell;
-} //----- End of model
+    this->ownedCell = currentCell;
+} //----- End of Model
 
 
-model::~model()
+Model::~Model()
 // Algorithm :
 //
 {
 #ifdef MAP
-    cout << "Call of destructor <model>" << endl;
+    cout << "Call of destructor <Model>" << endl;
 #endif
-} //----- End of model
+} //----- End of Model
 
 //---------------------------------------------------------------- PRIVATE
 
 //------------------------------------------------------ Protected methods
 
 //-------------------------------------------------------- Private methods
-const void model::log(const std::string log)
+const void Model::log(const std::string log)
 // Algorithm : N/A
 {
 #ifdef MAP
     cout << "Call of the logger" << endl;
 #endif
     std::cerr << log << std::endl;
-} //----- End of model
+} //----- End of Model
+
+
+Node<TICTACTOE::GameState, std::pair<int, int>>* Model::obtainBestNode(TICTACTOE::GameState currentState,
+                                                                       int depth=0,
+                                                                       bool isOpponent=false)
+// Algorithm :
+//  - Min-max ;
+//  - alpha-beta pruning ;
+//  - hashing.
+{
+    depth++;
+
+    if (depth == DEEPEST_POSSIBLE ||
+            (currentState.isEOG() || currentState.isOWin() || currentState.isXWin()))
+    {
+        int score = this->scoringState(currentState, this->ownedCell);
+
+        // Nega-max simplification
+        if (isOpponent) score = -score;
+
+        return new Node<TICTACTOE::GameState, std::pair<int, int>>(currentState,
+                                                                   std::make_pair(score, score));
+    }
+    else
+    {
+        std::vector<TICTACTOE::GameState> pMoves;
+        currentState.findPossibleMoves(pMoves);
+        Node<TICTACTOE::GameState, std::pair<int, int>>* node = new Node<TICTACTOE::GameState, std::pair<int, int>>(currentState,
+                                                                                                                    std::make_pair(INT8_MIN, INT8_MIN));
+
+
+        for (TICTACTOE::GameState pMove : pMoves)
+        {
+            Node<TICTACTOE::GameState, std::pair<int, int>>* son = obtainBestNode(pMove, depth, !isOpponent);
+
+            // Nega-max simplification
+            if (node->score.first < -son->score.first) node->score.first = -son->score.first;
+
+
+            node->addNode();
+        }
+
+    }
+}

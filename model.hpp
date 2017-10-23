@@ -5,7 +5,7 @@
  Copyright            : (C) 2017 by Francois
  *************************************************************************/
 
-//---------- Interface of <model>'s class (file model.h) -------------
+//---------- Interface of <Model>'s class (file Model.h) -------------
 
 #if !defined ( MODEL_HPP )
 #define MODEL_HPP
@@ -27,15 +27,15 @@ const int SZ_BOARD        = 4;
 const int DEEPEST_POSSIBLE= 0;
 
 //------------------------------------------------------------------------
-// Class's job <model>
-//      - Hold the model (basically a minimax with a-b pruning algorithms)
+// Class's job <Model>
+//      - Hold the Model (basically a minimax with a-b pruning algorithms)
 //      in order to solve A2 assignement in AI course at KTH.
-//      - I would like you to notice that this class is "model" and not
+//      - I would like you to notice that this class is "Model" and not
 //      "Model", in my opinion the second option is usually better for
 //      readability reason but I prefer to fit in the existing code.
 //------------------------------------------------------------------------
 
-class model {
+class Model {
 //----------------------------------------------------------------- PUBLIC
 
 public:
@@ -50,13 +50,13 @@ public:
 
 
 //---------------------------------------------- Constructors - destructor
-    model(TICTACTOE::Cell targetedCell);
+    Model(TICTACTOE::Cell targetedCell);
     // Manual :
     //
     // Contract :
     //
 
-    virtual ~model();
+    virtual ~Model();
     // Manual :
     //
     // Contract :
@@ -69,6 +69,8 @@ protected:
 private:
 //-------------------------------------------------------- Private methods
     const void log(const std::string log);
+    // Parameters :
+    //
     // Manual :
     //
     // Contract :
@@ -76,6 +78,8 @@ private:
 
     int scoringState(const TICTACTOE::GameState aState,
                      const TICTACTOE::Cell targetCell);
+    // Parameters :
+    //
     // Manual :
     //
     // Contract :
@@ -83,6 +87,18 @@ private:
 
     int computeScore(const std::vector<TICTACTOE::Cell> cell,
                      const TICTACTOE::Cell targetedCell);
+    // Parameters :
+    //
+    // Manual :
+    //
+    // Contract :
+    //
+
+    Node<TICTACTOE::GameState, std::pair<int,int>>* obtainBestNode(TICTACTOE::GameState currentState,
+                                                                   int depth=0,
+                                                                   bool isOpponent=false);
+    // Parameters :
+    //
     // Manual :
     //
     // Contract :
@@ -93,8 +109,7 @@ protected:
 
 private:
 //----------------------------------------------------- Private attributes
-    TICTACTOE::Cell ownCell;
-    tree<int> instance_tree;
+    TICTACTOE::Cell ownedCell;
 
 //-------------------------------------------------------- Friends classes
 
@@ -105,6 +120,6 @@ private:
 
 };
 
-//---------------------------------------- Dependant's types of <model>
+//---------------------------------------- Dependant's types of <Model>
 
 #endif // MODEL_HPP

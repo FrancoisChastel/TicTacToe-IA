@@ -25,11 +25,11 @@
 //      - T         : object that will be hold in the node of the tree
 //      - TScore    : object that will be hold in the node of the tree
 template<typename T, typename TScore>
-class node {
+class Node {
 //----------------------------------------------------------------- PUBLIC
 public:
 //------------------------------------------------------- Publics methods
-    node<T, TScore>* getNode(int index)
+    Node<T, TScore>* getNode(int index)
     // Parameters :
     //
     // Manual :
@@ -38,6 +38,28 @@ public:
     //
     {
         return this->nodes[index];
+    };
+
+    unsigned long size()
+    // Parameters :
+    //
+    // Manual :
+    //
+    // Contract :
+    //
+    {
+        return this->nodes.size();
+    };
+
+    void addNode(Node<T, TScore>* node)
+    // Parameters :
+    //
+    // Manual :
+    //
+    // Contract :
+    //
+    {
+        this->nodes.push_back(node);
     };
 
     TScore getScore()
@@ -52,7 +74,8 @@ public:
     };
 
 //---------------------------------------------- Constructors - destructor
-    node(T aValue = nullptr, TScore aScore = nullptr)
+    Node(T aValue = nullptr,
+         TScore aScore = nullptr)
     // Manual :
     //
     // Contract :
@@ -63,19 +86,23 @@ public:
     }
 
 
-    virtual ~node()
+    virtual ~Node()
     // Manual :
     //
     // Contract :
     //
     {
-        for (node<T, TScore> * element : nodes)
+        for (Node<T, TScore> * element : nodes)
         {
             delete element;
         }
         delete value;
         delete score;
     }
+
+    T                               value;
+    TScore                          score;
+
 
 //---------------------------------------------------------------- PRIVATE
 protected:
@@ -89,9 +116,7 @@ protected:
 
 private:
 //----------------------------------------------------- Private attributes
-    std::vector<node<T, TScore>*>   nodes;
-    TScore                          score;
-    T                               value;
+    std::vector<Node<T, TScore>*>   nodes;
 
 //-------------------------------------------------------- Friends classes
 
